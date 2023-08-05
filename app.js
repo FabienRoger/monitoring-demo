@@ -1,3 +1,5 @@
+import { complete } from './monitor.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     const apiKeyInput = document.getElementById('apiKey');
     const promptInput = document.getElementById('prompt');
@@ -23,23 +25,4 @@ async function loadApiKey() {
     const data = await response.text();
     if (!data) return; // halt function if no data returned
     apiKeyInput.value = data;
-}
-
-
-async function complete(prompt, apiKey) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + apiKey,
-        },
-        body: JSON.stringify({
-            'prompt': prompt,
-            'temperature': 0,
-        })
-    };
-    const response = await fetch('https://api.openai.com/v1/engines/ada/completions', requestOptions);
-    const data = await response.json();
-    return data.choices[0].text;
-
 }
