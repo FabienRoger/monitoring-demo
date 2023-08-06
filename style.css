@@ -48,3 +48,9 @@ button:disabled {
     border-radius: 0.25rem;
     background-color: #fff;
 }
+
+.loadbar {
+    width: 0%;
+    height: 0.5rem;
+    background-color: #999;
+}
