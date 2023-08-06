@@ -2,23 +2,57 @@
 <html>
 
 <head>
-    <title>Web App</title>
+    <title>Monitoring demo</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        #mask {
+            width: 100%;
+            height: 100px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        #mask span {
+            width: 100px;
+            height: 100px;
+            background-color: rgb(71, 2, 2);
+            position: absolute;
+            color: white;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #mask p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            font-weight: bold;
+        }
+    </style>
     <script defer src="app.js" type="module"></script>
 </head>
 
 <body>
     <div class="container">
-        <input id="apiKey" placeholder="OpenAI API Key" type="password" />
-        <div id="redSquare">
-            <span>
+        <h1>Monitoring game</h1>
+        <div id="mask">
+            <span>Try moving me
             </span>
-            <p>Success</p>
+            <p>Success!</p>
         </div>
-        <button id="submit">Submit</button>
+        <!-- End of core -->
+        <input id="apiKey" placeholder="OpenAI API Key" type="password" />
         <textarea id="prompt" placeholder="Prompt"></textarea>
-        <!-- document.getElementById("redSquare").children[0].style.opacity = "0"; -->
-        <div id="response"></div>
+        <button id="submit">Submit</button>
+        <div id="response" class="response"></div>
+        <!-- End of container -->
     </div>
 </body>
 

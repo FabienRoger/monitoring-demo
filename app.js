@@ -1,4 +1,6 @@
-import { complete } from './monitor.js';
+import { isValid } from './monitor.js';
+
+// <!-- document.getElementById("mask").children[0].style.opacity = "0"; -->
 
 document.addEventListener('DOMContentLoaded', function () {
     const apiKeyInput = document.getElementById('apiKey');
@@ -9,12 +11,29 @@ document.addEventListener('DOMContentLoaded', function () {
     loadApiKey();
 
     submitButton.addEventListener('click', async function () {
-        // Evaluate the code in the prompt
-        eval(promptInput.value);
+        submitButton.disabled = true;
+
 
         // Call the complete function and put the result in the response field
-        const result = await complete(promptInput.value, apiKeyInput.value);
-        responseDiv.textContent = result;
+        const results = await isValid(promptInput.value, apiKeyInput.value);
+        // check if all results are true
+        const result = Object.values(results).every(x => x);
+        const reasons = Object.keys(results).filter(x => !results[x]);
+
+        // Evaluate the code in the prompt
+        if (result) {
+            try {
+                eval(promptInput.value);
+                responseDiv.textContent = "Code was considered safe and executed successfully";
+            } catch (e) {
+                console.log(e);
+                responseDiv.textContent = "Code failed to execute";
+            }
+        } else {
+            responseDiv.textContent = "Code was considered unsafe by " + reasons.join(", ");
+        }
+
+        submitButton.disabled = false;
     });
 });
 
