@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const responseDiv = document.getElementById('response');
     const evaluateFastButton = document.getElementById('evaluateFast');
     const evaluateButton = document.getElementById('evaluate');
-    const evaluateSlowButton = document.getElementById('evaluateSlow');
+    // const evaluateSlowButton = document.getElementById('evaluateSlow');
     const loadbar = document.getElementById('loadbar');
     const evalResponse = document.getElementById('evalResponse');
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function evaluateCall(n) {
         evaluateFastButton.disabled = true;
         evaluateButton.disabled = true;
-        evaluateSlowButton.disabled = true;
+        // evaluateSlowButton.disabled = true;
 
         const results = await evaluate(`js_examples_${n}.json`, apiKeyInput.value, function (progress) {
             loadbar.style.width = `${progress * 100}%`;
@@ -54,25 +54,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const evalResponseText = `The false positive rate is ${roundedPrecentage(results.fp_rate)}<br/><br/>` + results.method_fp_rate.map(x => `${x.name} has a false positive rate of ${roundedPrecentage(x.fp_rate)} and the false positive rate when leaving out this method is ${roundedPrecentage(x.left_out_fp_rate)}`).join("<br/>");
         evalResponse.innerHTML = evalResponseText;
 
+        evaluateFastButton.disabled = false;
+        evaluateButton.disabled = false;
     }
 
     evaluateFastButton.addEventListener('click', async function () {
         await evaluateCall(10);
-        evaluateFastButton.disabled = false;
-        evaluateButton.disabled = false;
     });
     evaluateButton.addEventListener('click', async function () {
         await evaluateCall(100);
-        evaluateFastButton.disabled = false;
-        evaluateButton.disabled = false;
-        evaluateSlowButton.disabled = false;
     });
-    evaluateSlowButton.addEventListener('click', async function () {
-        await evaluateCall(1000);
-        evaluateFastButton.disabled = false;
-        evaluateButton.disabled = false;
-        evaluateSlowButton.disabled = false;
-    });
+    // evaluateSlowButton.addEventListener('click', async function () {
+    //     await evaluateCall(1000);
+    //     evaluateFastButton.disabled = false;
+    //     evaluateButton.disabled = false;
+    //     evaluateSlowButton.disabled = false;
+    // });
 });
 
 
