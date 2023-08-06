@@ -54,19 +54,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const evalResponseText = `The false positive rate is ${roundedPrecentage(results.fp_rate)}<br/><br/>` + results.method_fp_rate.map(x => `${x.name} has a false positive rate of ${roundedPrecentage(x.fp_rate)} and the false positive rate when leaving out this method is ${roundedPrecentage(x.left_out_fp_rate)}`).join("<br/>");
         evalResponse.innerHTML = evalResponseText;
 
-        evaluateFastButton.disabled = false;
-        evaluateButton.disabled = false;
-        evaluateSlowButton.disabled = false;
     }
 
     evaluateFastButton.addEventListener('click', async function () {
-        evaluateCall(10)
+        await evaluateCall(10);
+        evaluateFastButton.disabled = false;
+        evaluateButton.disabled = false;
     });
     evaluateButton.addEventListener('click', async function () {
-        evaluateCall(100)
+        await evaluateCall(100);
+        evaluateFastButton.disabled = false;
+        evaluateButton.disabled = false;
+        evaluateSlowButton.disabled = false;
     });
     evaluateSlowButton.addEventListener('click', async function () {
-        evaluateCall(1000)
+        await evaluateCall(1000);
+        evaluateFastButton.disabled = false;
+        evaluateButton.disabled = false;
+        evaluateSlowButton.disabled = false;
     });
 });
 
