@@ -24,21 +24,30 @@ textarea {
 button {
     display: inline-block;
     padding: 0.5rem 1rem;
-    border: 0;
+    border: 1px solid #333;
     border-radius: 0.25rem;
-    background-color: #333;
-    color: #fff;
     font-size: 1rem;
     line-height: 1;
     cursor: pointer;
     text-decoration: none;
+    background-color: #fefefe;
 }
 button:hover {
-    background-color: #666;
+    background-color: #eee;
 }
+
 button:disabled {
     background-color: #999;
     cursor: default;
+}
+
+button.main{
+    background-color: #333;
+    color: #fff;
+    border: 0;
+}
+button.main:hover {
+    background-color: #666;
 }
 
 .response {

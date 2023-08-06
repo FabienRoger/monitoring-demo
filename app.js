@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const promptInput = document.getElementById('prompt');
     const submitButton = document.getElementById('submit');
     const responseDiv = document.getElementById('response');
+    const evaluateFastButton = document.getElementById('evaluateFast');
     const evaluateButton = document.getElementById('evaluate');
+    const evaluateSlowButton = document.getElementById('evaluateSlow');
     const loadbar = document.getElementById('loadbar');
     const evalResponse = document.getElementById('evalResponse');
 
@@ -39,17 +41,35 @@ document.addEventListener('DOMContentLoaded', function () {
         submitButton.disabled = false;
     });
 
-    evaluateButton.addEventListener('click', async function () {
-        const results = await evaluate('js_examples_10.json', apiKeyInput.value, function (progress) {
+    async function evaluateCall(n) {
+        evaluateFastButton.disabled = true;
+        evaluateButton.disabled = true;
+        evaluateSlowButton.disabled = true;
+
+        const results = await evaluate(`js_examples_${n}.json`, apiKeyInput.value, function (progress) {
             loadbar.style.width = `${progress * 100}%`;
         });
         loadbar.style.width = `0%`;
         console.log(results);
         const evalResponseText = `The false positive rate is ${roundedPrecentage(results.fp_rate)}<br/><br/>` + results.method_fp_rate.map(x => `${x.name} has a false positive rate of ${roundedPrecentage(x.fp_rate)} and the false positive rate when leaving out this method is ${roundedPrecentage(x.left_out_fp_rate)}`).join("<br/>");
         evalResponse.innerHTML = evalResponseText;
-        console.log(evalResponse);
+
+        evaluateFastButton.disabled = false;
+        evaluateButton.disabled = false;
+        evaluateSlowButton.disabled = false;
+    }
+
+    evaluateFastButton.addEventListener('click', async function () {
+        evaluateCall(10)
+    });
+    evaluateButton.addEventListener('click', async function () {
+        evaluateCall(100)
+    });
+    evaluateSlowButton.addEventListener('click', async function () {
+        evaluateCall(1000)
     });
 });
+
 
 function roundedPrecentage(num, decimalPlaces = 2) {
     let factor = Math.pow(10, decimalPlaces);
